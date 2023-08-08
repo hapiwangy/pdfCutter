@@ -19,16 +19,16 @@ def cut_pages(filename="sample.pdf", endpoint="split_file", unit=0):
                 writer.add_page(reader.pages[x])
             elif acc == unit:
                 writer.add_page(reader.pages[x])
-                with open(f"{endpoint}_{filecount}.pdf", 'wb') as output:
+                with open(f"{endpoint}_{(filecount - 1) * unit + 1}-{filecount * unit}.pdf", 'wb') as output:
                     writer.write(output)
                 acc = 1
                 writer = PyPDF2.PdfWriter()
                 filecount += 1
         if acc != 1:
-            with open(f"{endpoint}_{filecount}.pdf", 'wb') as output:
+            with open(f"{endpoint}_{(filecount - 1) * unit + 1}-{page}.pdf", 'wb') as output:
                 writer.write(output)
 
 # 取得參數
 _, origin_file, endpoint_file, number_count = sys.argv
 cut_pages(origin_file, endpoint_file, int(number_count))
-# cut_pages("sample.pdf", "end", 2)
+# cut_pages("sample.pdf", "end", 6)
